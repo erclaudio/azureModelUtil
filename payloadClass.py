@@ -1,6 +1,7 @@
 import datetime
 import json
 class Payload:
+
     def __init__(self, pregnancies, plasmaGlucose, diastolicBloodPressure, tricepsThickness, serumInsulin, bmi, diabetesPedigree, age ):
         self.pregnancies = pregnancies
         self.plasmaGlucose = plasmaGlucose
@@ -10,6 +11,9 @@ class Payload:
         self.bmi = bmi
         self.diabetesPedigree = diabetesPedigree
         self.age = age
+        self.timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.payloadPath = f"payloads/payload_{self.timestamp}.json"
+       
       
     @classmethod  
     def userPayloadBuilder(cls):
@@ -43,7 +47,7 @@ class Payload:
                     "DiastolicBloodPressure",
                     "TricepsThickness",
                     "SerumInsulin",
-                    "Bmi",
+                    "BMI",
                     "DiabetesPedigree",
                     "Age"]
         index = [1]
@@ -57,9 +61,13 @@ class Payload:
     
     def makePayload(self):
         data = self.toPayloadFormat()
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        with open(f'payloads/payload_{timestamp}.json', 'w') as json_file:
+        with open(f'payloads/payload_{self.timestamp}.json', 'w') as json_file:
             json.dump(data, json_file, indent=2)
-            print(f"Payload has been saved to payload_{timestamp}.json")
+            print(f"Payload has been saved to payload_{self.timestamp}.json")
+
+    def getPayloadPath(self):
+        return self.payloadPath
+
+
 
     

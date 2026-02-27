@@ -1,4 +1,13 @@
-from azure.ai.ml import MLClient
-from azure.identity import DefaultAzureCredential
-
-mlClient= MLClient(DefaultAzureCredential(),"686c0da9-2882-4cc2-925d-dda350e5b6c7","rg-dp100-l4067ea96eedb4b81a4","mlw-dp100-l4067ea96eedb4b81a4")
+class ModelInvoker:
+    def __init__(self,client, payloadPath):
+        self.client = client
+        self.response = client.online_endpoints.invoke(
+            endpoint_name="endpoint-02261441765725",
+            deployment_name="blue",
+            request_file=payloadPath
+        )
+    def getRespone(self):
+        if self.response == [1]:
+            return("Has Diabetes")
+        else: 
+            return("Doesn't have diabetes")
